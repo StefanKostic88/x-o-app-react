@@ -1,9 +1,7 @@
 import { MainGameContainer, PlayerContainer, Header } from "./components";
-
+import useSetGame from "./hooks/use-set-game";
 import GlobalStyles from "./assets/styles/Global";
 import { AppStyled, MainContainerStyled } from "./styles";
-
-import useSetGame from "./hooks/use-set-game";
 
 const App = () => {
   const {
@@ -25,6 +23,7 @@ const App = () => {
           playerOneIsActive={playerOneIsActive}
           winner={winner}
         />
+
         <MainContainerStyled>
           {displayIsVisible ? (
             <MainGameContainer
