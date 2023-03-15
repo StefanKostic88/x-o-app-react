@@ -11,7 +11,6 @@ function MainGameContainer({ onChangePlayer, onHideGame, getWinner }) {
     onHideGame,
     onChangePlayer
   );
-
   return (
     <GridContainerStyled>
       {gameArr.map((cube, index) => (

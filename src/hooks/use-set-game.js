@@ -1,61 +1,123 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
+
+const setGameOptions = {
+  CHANGE_PLAYER: "change player",
+  HIDE_DISPLAY: "hide display",
+  SHOW_DISPLAY: "show display",
+  NO_WINNERS: "no winners",
+  PLAYER_ONE_WINS: "x wins",
+  PLAYER_TWO_WINS: "o wins",
+  RELOAD: "reload",
+};
+
+const setGameReducer = (state, action) => {
+  if (action.type === setGameOptions.RELOAD) {
+    return {
+      playerOneIsActive: true,
+      displayIsVisible: true,
+      winner: null,
+      winnerPlayer: null,
+    };
+  }
+
+  if (action.type === setGameOptions.CHANGE_PLAYER) {
+    return {
+      ...state,
+      playerOneIsActive: !state.playerOneIsActive,
+    };
+  }
+
+  if (action.type === setGameOptions.HIDE_DISPLAY) {
+    return { ...state, displayIsVisible: false };
+  }
+  if (action.type === setGameOptions.SHOW_DISPLAY) {
+    return { ...state, displayIsVisible: true };
+  }
+
+  if (action.type === setGameOptions.NO_WINNERS) {
+    return { ...state, displayIsVisible: false, winner: " No winners" };
+  }
+
+  if (action.type === setGameOptions.PLAYER_ONE_WINS) {
+    return { ...state, winnerPlayer: true, winner: "X Player Wins" };
+  }
+
+  if (action.type === setGameOptions.PLAYER_TWO_WINS) {
+    return { ...state, winnerPlayer: true, winner: "O Player Wins" };
+  }
+
+  return {
+    playerOneIsActive: true,
+    displayIsVisible: true,
+    winner: null,
+    winnerPlayer: null,
+  };
+};
+
 const useSetGame = () => {
-  const [playerOneIsActive, setPlayerOneIsActive] = useState(true);
-  const [displayIsVisible, setDisplayIsVisible] = useState(true);
-  const [winner, setWinner] = useState(null);
-  const [winnerPlayer, setWinnerPlayer] = useState(null);
+  const [state, dispatch] = useReducer(setGameReducer, {
+    playerOneIsActive: true,
+    displayIsVisible: true,
+    winner: null,
+    winnerPlayer: null,
+  });
+
+  const [gameHasEnded, setGameHasEnded] = useState(false);
 
   const changePlayer = () => {
-    setPlayerOneIsActive((prev) => !prev);
+    dispatch({ type: setGameOptions.CHANGE_PLAYER });
   };
 
   const hideGame = () => {
-    setDisplayIsVisible(() => false);
+    dispatch({ type: setGameOptions.HIDE_DISPLAY });
   };
 
   const reloadHandler = () => {
-    setDisplayIsVisible(() => true);
-    setDisplayIsVisible(() => true);
-    setWinner(() => null);
+    dispatch({ type: setGameOptions.RELOAD });
   };
 
-  const getWinner = (winner, count = 0, user) => {
+  const getWinner = (winner, count = 0) => {
     if (count > 9) {
-      setDisplayIsVisible(() => false);
-      setWinnerPlayer(() => false);
+      setGameHasEnded(() => true);
       return;
     }
 
     if (count === 0 && winner) {
-      setWinner(() => "X Player Wins");
-      setWinnerPlayer(() => true);
+      dispatch({ type: setGameOptions.PLAYER_ONE_WINS });
+
       return;
     }
     if (count === 0 && !winner) {
-      setWinner(() => "O Player Wins");
-      setWinnerPlayer(() => true);
+      dispatch({ type: setGameOptions.PLAYER_TWO_WINS });
+
       return;
     }
   };
+
   useEffect(() => {
-    setDisplayIsVisible(() => true);
+    dispatch({ type: setGameOptions.SHOW_DISPLAY });
   }, []);
 
   useEffect(() => {
-    if (!winner && !winnerPlayer) {
-      setWinner(() => "No winners");
-      return;
+    if (gameHasEnded) {
+      dispatch({ type: setGameOptions.NO_WINNERS });
+
+      if (state.winner === "X Player Wins") {
+        dispatch({ type: setGameOptions.PLAYER_ONE_WINS });
+        return;
+      }
+      setGameHasEnded(() => false);
     }
-  }, [winnerPlayer, winner]);
+  }, [gameHasEnded]);
 
   return {
     changePlayer,
     hideGame,
     reloadHandler,
     getWinner,
-    winner,
-    displayIsVisible,
-    playerOneIsActive,
+    winner: state.winner,
+    displayIsVisible: state.displayIsVisible,
+    playerOneIsActive: state.playerOneIsActive,
   };
 };
 
