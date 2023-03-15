@@ -1,6 +1,6 @@
 import { MainGameContainer, PlayerContainer, Header } from "./components";
 
-import GlobalStyles from "./components/assets/styles/Global";
+import GlobalStyles from "./assets/styles/Global";
 import { AppStyled, MainContainerStyled } from "./styles";
 
 import useSetGame from "./hooks/use-set-game";

@@ -1,6 +1,6 @@
 import Cube from "./Cube/Cube";
 import { GridContainerStyled } from "./styles/MainGameStyles";
-import { arr } from "../assets/helpers";
+import { arr } from "../../assets/helpers";
 
 import useGame from "../../hooks/use-game";
 

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 
-import { winnerData } from "../components/assets/helpers";
+import { winnerData } from "../assets/helpers";
 const useGame = (arr, getWinner, onHideGame, onChangePlayer) => {
   const [user, setUserOne] = useState(true);
   const [dataArr, setDataArr] = useState([...arr]);
