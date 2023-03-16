@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { HeaderStyled } from "./styles/HeaderStyles";
 
 const Header = ({ displayIsVisible, playerOneIsActive, winner }) => {
+  const [toggleAnimation, setToggleAnimation] = useState(false);
+  // console.log(playerOneIsActive);
+  useEffect(() => {
+    if (winner) {
+      setToggleAnimation(() => true);
+    }
+    return () => {
+      setToggleAnimation(() => false);
+    };
+  }, [winner]);
+  console.log(toggleAnimation);
   return (
-    <HeaderStyled>
+    <HeaderStyled hasWinner={toggleAnimation}>
       {displayIsVisible ? (
         playerOneIsActive ? (
           <h1>X Player Turn</h1>

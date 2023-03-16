@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const CostumeButtonStyled = styled.button`
-  padding: 10px 25px;
+  padding: 15px 25px;
   background-color: transparent;
   border: none;
   outline: none;
@@ -14,4 +14,6 @@ export const CostumeButtonStyled = styled.button`
   border-radius: 7px;
   cursor: pointer;
   width: 75%;
+  font-family: inherit;
+  letter-spacing: 1px;
 `;

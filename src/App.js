@@ -32,7 +32,10 @@ const App = () => {
               getWinner={getWinner}
             />
           ) : (
-            <PlayerContainer onRealoadHandler={reloadHandler} />
+            <PlayerContainer
+              onRealoadHandler={reloadHandler}
+              displayIsVisible={displayIsVisible}
+            />
           )}
         </MainContainerStyled>
       </AppStyled>

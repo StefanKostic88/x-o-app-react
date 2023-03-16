@@ -43,6 +43,26 @@ export const setGameReducer = (state, action) => {
   }
 };
 
+export const generateWinnerData = (hasendedState, dispathEvent) => {
+  return (winner, count = 0) => {
+    if (count > 9) {
+      hasendedState(() => true);
+      return;
+    }
+
+    if (count === 0 && winner) {
+      dispathEvent({ type: setGameOptions.PLAYER_ONE_WINS });
+
+      return;
+    }
+    if (count === 0 && !winner) {
+      dispathEvent({ type: setGameOptions.PLAYER_TWO_WINS });
+
+      return;
+    }
+  };
+};
+
 // const setGameOptions = {
 //   CHANGE_PLAYER: "change player",
 //   HIDE_DISPLAY: "hide display",
@@ -128,4 +148,22 @@ export const setGameReducer = (state, action) => {
 //   displayIsVisible: true,
 //   winner: null,
 //   winnerPlayer: null,
+// };
+
+// (winner, count = 0) => {
+//   if (count > 9) {
+//     setGameHasEnded(() => true);
+//     return;
+//   }
+
+//   if (count === 0 && winner) {
+//     dispatch({ type: setGameOptions.PLAYER_ONE_WINS });
+
+//     return;
+//   }
+//   if (count === 0 && !winner) {
+//     dispatch({ type: setGameOptions.PLAYER_TWO_WINS });
+
+//     return;
+//   }
 // };

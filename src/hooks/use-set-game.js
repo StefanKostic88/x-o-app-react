@@ -1,5 +1,9 @@
 import { useEffect, useReducer, useState } from "react";
-import { setGameOptions, setGameReducer } from "../assets/setGameData.js";
+import {
+  setGameOptions,
+  setGameReducer,
+  generateWinnerData,
+} from "../assets/setGameData.js";
 
 const useSetGame = () => {
   const [state, dispatch] = useReducer(setGameReducer, {
@@ -10,6 +14,7 @@ const useSetGame = () => {
   });
 
   const [gameHasEnded, setGameHasEnded] = useState(false);
+  const getWinner = generateWinnerData(setGameHasEnded, dispatch);
 
   const changePlayer = () => {
     dispatch({ type: setGameOptions.CHANGE_PLAYER });
@@ -23,30 +28,13 @@ const useSetGame = () => {
     dispatch({ type: setGameOptions.RELOAD });
   };
 
-  const getWinner = (winner, count = 0) => {
-    if (count > 9) {
-      setGameHasEnded(() => true);
-      return;
-    }
-
-    if (count === 0 && winner) {
-      dispatch({ type: setGameOptions.PLAYER_ONE_WINS });
-
-      return;
-    }
-    if (count === 0 && !winner) {
-      dispatch({ type: setGameOptions.PLAYER_TWO_WINS });
-
-      return;
-    }
-  };
-
   useEffect(() => {
     dispatch({ type: setGameOptions.SHOW_DISPLAY });
   }, []);
 
   useEffect(() => {
     if (gameHasEnded) {
+      console.log("ended");
       dispatch({ type: setGameOptions.NO_WINNERS });
 
       if (state.winner === "X Player Wins") {

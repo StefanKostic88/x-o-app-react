@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdClose, MdRadioButtonUnchecked } from "react-icons/md";
 import { GridItemStyled } from "../styles/MainGameStyles";
 
